@@ -22,7 +22,13 @@ const ClotheSchema = new Schema({
         type: String,
         required: true
     },
+    sold: Boolean,
+    soldPrice: Number,
     boughtBy: {
+        type: mongoose.Types.ObjectId,
+        ref: 'User'
+    },
+    seller: {
         type: mongoose.Types.ObjectId,
         ref: 'User'
     }

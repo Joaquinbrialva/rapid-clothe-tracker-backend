@@ -8,7 +8,7 @@ exports.signUp = async (req, res) => {
         const user = await User.create({ email, password });
         sendResponse(res, 200, user, 'Usuario creado correctamente');
     } catch (error) {
-        sendError(res, 500, error.message);
+        return sendError(res, 500, error.message);
     }
 };
 
@@ -34,6 +34,6 @@ exports.signIn = async (req, res) => {
 
         sendResponse(res, 200, response, 'Usuario logueado correctamente');
     } catch (error) {
-        sendError(res, 500, error.message);
+        return sendError(res, 500, error.message);
     }
 };
