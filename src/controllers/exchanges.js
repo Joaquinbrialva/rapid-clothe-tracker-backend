@@ -3,7 +3,7 @@ const { sendResponse, sendError } = require('../utils/sendResponse');
 
 exports.setCurrencyExchange = async (req, res) => {
     try {
-        const { code, name, valueToUSD } = req.body;
+        const { code, name, valueToUSD, valueToUYU } = req.body;
 
         const currencyExists = await Currency.findOne({ code });
 
@@ -11,7 +11,7 @@ exports.setCurrencyExchange = async (req, res) => {
             return sendError(res, 400, 'La moneda ya existe en la base de datos');
         }
 
-        const currency = await Currency.create({ code, name, valueToUSD });
+        const currency = await Currency.create({ code, name, valueToUSD, valueToUYU });
 
         sendResponse(res, 201, currency, 'Moneda creada correctamente');
     } catch (error) {

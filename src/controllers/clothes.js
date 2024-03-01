@@ -47,3 +47,14 @@ exports.registerClotheSale = async (req, res) => {
         sendError(res, 500, error.message);
     }
 };
+
+exports.deleteClothe = async (req, res) => {
+    try {
+        const { clotheId } = req.params;
+        const clothe = await Clothe.findByIdAndDelete(clotheId);
+        if (!clothe) return sendError(res, 404, 'No se encontró la prenda');
+        sendResponse(res, 200, clothe, 'Prenda eliminada correctamente');
+    } catch (error) {
+        return sendError(res, 500, error.message);
+    }
+};
