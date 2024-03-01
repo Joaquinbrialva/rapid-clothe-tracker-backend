@@ -1,20 +1,19 @@
-const Exchange = require('../models/Exchange');
+const Currency = require('../models/Currency');
 const { sendResponse, sendError } = require('../utils/sendResponse');
 
-exports.setPairExchange = async (req, res) => {
+exports.setCurrencyExchange = async (req, res) => {
     try {
-        const { from, to, multiplier } = req.body;
-        const pairExists = await Exchange.findOne({ pair: `${from}-${to}` });
-        if (pairExists) {
-            return sendError(res, 400, 'El par de monedas ya existe');
-        };
-        const exchange = await Exchange.create({
-            pair: `${from}-${to}`,
-            fromCurrency: from,
-            toCurrency: to,
-            multiplier: multiplier
-        });
-        sendResponse(res, 201, exchange, `Has configurado la cotización del par ${from.toUpperCase()} - ${to.toUpperCase()}`);
+        const { code, name, valueToUSD } = req.body;
+
+        const currencyExists = await Currency.findOne({ code });
+
+        if (currencyExists) {
+            return sendError(res, 400, 'La moneda ya existe en la base de datos');
+        }
+
+        const currency = await Currency.create({ code, name, valueToUSD });
+
+        sendResponse(res, 201, currency, 'Moneda creada correctamente');
     } catch (error) {
         return sendError(res, 500, error.message);
     }
@@ -33,14 +32,9 @@ exports.editPairExchange = async (req, res) => {
 
 exports.getPairs = async (req, res) => {
     try {
-        const { pair } = req.query;
-        let query = {};
-        if (pair) {
-            query.pair = pair;
-        }
-        const exchanges = await Exchange.find(query);
-        if (exchanges.length === 0) return sendResponse(res, 404, exchanges, 'Aún no has configurado ningún par de monedas');
-        sendResponse(res, 200, exchanges);
+        const currencies = await Currency.find();
+        if (currencies.length === 0) return sendResponse(res, 404, currencies, 'Aún no has configurado ningún par de monedas');
+        sendResponse(res, 200, currencies);
     } catch (error) {
         return sendError(res, 500, error.message);
     }

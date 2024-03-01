@@ -1,8 +1,8 @@
 const router = require('express').Router();
-const { getPairs, setPairExchange, editPairExchange } = require('../controllers/exchanges');
+const { getPairs, setCurrencyExchange, editPairExchange } = require('../controllers/exchanges');
 
-router.post('/', setPairExchange);
 router.get('/', getPairs);
+router.post('/', setCurrencyExchange);
 router.put('/edit/:pairId', editPairExchange);
 
 module.exports = router;

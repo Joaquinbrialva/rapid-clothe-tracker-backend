@@ -4,6 +4,6 @@ const clothesRouter = require('./clothes');
 const exchangesRouter = require('./exchanges');
 
 router.use('/clothes', clothesRouter);
-router.use('/exchanges', exchangesRouter);
+router.use('/currency', exchangesRouter);
 
 module.exports = router;
