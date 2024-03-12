@@ -44,7 +44,19 @@ exports.registerClotheSale = async (req, res) => {
         await clothe.save();
         sendResponse(res, 200, clothe, "Prenda vendida, ¡sigamos así!");
     } catch (error) {
-        sendError(res, 500, error.message);
+        return sendError(res, 500, error.message);
+    }
+};
+
+exports.updateClothe = async (req, res) => {
+    try {
+        const { clotheId } = req.params;
+        console.log(clotheId)
+        const clothe = await Clothe.findByIdAndUpdate(clotheId, req.body, { new: true });
+        if (!clothe) return sendError(res, 404, 'No se encontró la prenda');
+        sendResponse(res, 200, clothe, 'Prenda actualizada correctamente');
+    } catch (error) {
+        return sendError(res, 500, error.message);
     }
 };
 
